@@ -1,6 +1,6 @@
 .env
-.o
-.cmake
+*.o
+*.cmake
 build/
 VulkanTutorial/
 CMakeFiles/
