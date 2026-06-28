@@ -1,4 +1,0 @@
-/home/wizard/Documents/Projects/vulkan/vktutorial-2026/CMakeFiles/VulkanTutorial.dir
-/home/wizard/Documents/Projects/vulkan/vktutorial-2026/CMakeFiles/VulkanTutorialShader.dir
-/home/wizard/Documents/Projects/vulkan/vktutorial-2026/CMakeFiles/edit_cache.dir
-/home/wizard/Documents/Projects/vulkan/vktutorial-2026/CMakeFiles/rebuild_cache.dir

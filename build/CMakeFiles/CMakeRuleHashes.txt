@@ -1,4 +1,0 @@
-# Hashes of file build rules.
-23f0405a3db202fbac10306bdb11853a CMakeFiles/VulkanTutorialShader
-fa70f384b2ea60e364c0bd937df20134 VulkanTutorial/shaders
-ef1e16dc1d177b0ca90b44257f1e2f93 VulkanTutorial/shaders/slang.spv
