@@ -1,0 +1,8 @@
+.env
+.o
+.cmake
+build/
+VulkanTutorial/
+CMakeFiles/
+template/
+Makefile
