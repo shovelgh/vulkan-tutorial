@@ -1,7 +1,9 @@
+#include "vulkan/vulkan.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <stdexcept>
 #include <ranges>
@@ -48,6 +50,9 @@ private:
 	vk::raii::PhysicalDevice         physicalDevice = nullptr;
 	std::vector<const char*>         requiredDeviceExtension = {vk::KHRSwapchainExtensionName};
 
+	vk::raii::Device                 device         = nullptr;
+	vk::raii::Queue                  graphicsQueue  = nullptr;
+
 
 	void initWindow() {
 		glfwInit();
@@ -62,6 +67,7 @@ private:
 		createInstance();
 		setupDebugMessenger();
 		pickPhysicalDevice();
+		createLogicalDevice();
 	}
 
 	void mainLoop() {
@@ -169,6 +175,47 @@ private:
 		}
 		physicalDevice = *devIter;
 
+	}
+
+	void createLogicalDevice(){
+		std::vector<vk::QueueFamilyProperties> queueFamilyProperties = physicalDevice.getQueueFamilyProperties();
+		auto graphicsQueueFamilyProperty = std::ranges::find_if(
+			queueFamilyProperties,
+			[](auto const &qfp) {
+				return (qfp.queueFlags & vk::QueueFlagBits::eGraphics) != static_cast<vk::QueueFlags>(0);
+		});
+
+		auto graphicsIndex = static_cast<uint32_t>(std::distance(queueFamilyProperties.begin(), graphicsQueueFamilyProperty));
+
+		vk::StructureChain<
+			vk::PhysicalDeviceFeatures2,
+			vk::PhysicalDeviceVulkan11Features,
+			vk::PhysicalDeviceVulkan13Features,
+			vk::PhysicalDeviceExtendedDynamicStateFeaturesEXT
+		> featureChain = {
+			{},
+			{.shaderDrawParameters = true},
+			{.dynamicRendering     = true},
+			{.extendedDynamicState = true}
+		};
+
+		float 			  queuePriority = 0.5f;
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo {
+			.queueFamilyIndex = graphicsIndex,
+			.queueCount = 1,
+			.pQueuePriorities = &queuePriority
+		};
+
+		vk::DeviceCreateInfo deviceCreateInfo {
+			.pNext = &featureChain.get<vk::PhysicalDeviceFeatures2>(),
+			.queueCreateInfoCount = 1,
+			.pQueueCreateInfos = &deviceQueueCreateInfo,
+				.enabledExtensionCount = static_cast<uint32_t>(requiredDeviceExtension.size()),
+			.ppEnabledExtensionNames = requiredDeviceExtension.data()
+		};
+
+		device = vk::raii::Device(physicalDevice, deviceCreateInfo);
+		graphicsQueue = vk::raii::Queue(device, graphicsIndex, 0);
 	}
 
 	bool isDeviceSuitable(vk::raii::PhysicalDevice const & physicalDevice) {
