@@ -1,1 +1,8 @@
-build/compile_commands.json
+[
+{
+  "directory": "/home/wizard/Documents/Projects/vulkan/vktutorial-2026",
+  "command": "/usr/bin/c++ -DVULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1 -DVULKAN_HPP_HANDLE_ERROR_OUT_OF_DATE_AS_SUCCESS -DVULKAN_HPP_NO_STRUCT_CONSTRUCTORS=1  -O3 -DNDEBUG -std=c++20 -o CMakeFiles/VulkanTutorial.dir/main.cpp.o -c /home/wizard/Documents/Projects/vulkan/vktutorial-2026/main.cpp",
+  "file": "/home/wizard/Documents/Projects/vulkan/vktutorial-2026/main.cpp",
+  "output": "CMakeFiles/VulkanTutorial.dir/main.cpp.o"
+}
+]
